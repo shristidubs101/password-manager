@@ -1,9 +1,12 @@
+from dbconfig import dbconfig
+
 from getpass import getpass
 import hashlib
 import sys
-from dbconfig import dbconfig
+
 import string
 import random
+
 from rich import print as printc
 from rich.console import Console
 
