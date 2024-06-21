@@ -43,28 +43,36 @@ def config():
     cursor.execute(query)
     printc("[green][+][/green] Table 'entries' created")
 
-    mp = ""
-    while 1:
-        mp = getpass("Choose a MASTER PASSWORD: ")
-        if mp == getpass("Re-type: ") and mp != "":
-            break
-        printc("[yellow][-]Please try again.[/yellow]")
+    query = """SELECT COUNT(1) FROM Password_Manager.classified"""
+    cursor.execute(query)
 
-    # Hash the master password
-    hashed_mp = hashlib.sha256(mp.encode()).hexdigest()
-    printc("[green][+][/green] Generated hash of MASTER PASSWORD")
+    if cursor.fetchone() == (0,):
+        mp = ""
+        while 1:
+            mp = getpass("Choose a MASTER PASSWORD: ")
+            if mp == getpass("Re-type: ") and mp != "":
+                break
+            printc("[yellow][-]Please try again.[/yellow]")
 
-    # Generate a DEVICE SECRET
-    ds = generateDeviceSecret()
-    printc("[green][+][/green] Generated DEVICE SECRET")
+        # Hash the master password
+        hashed_mp = hashlib.sha256(mp.encode()).hexdigest()
+        printc("[green][+][/green] Generated hash of MASTER PASSWORD")
 
-    # Add them to db
-    query = """INSERT INTO Password_Manager.classified(masterkey_hash,device_secret)values(%s,%s)"""
-    val = (hashed_mp, ds)
-    cursor.execute(query, val)
-    db.commit()
+        # Generate a DEVICE SECRET
+        ds = generateDeviceSecret()
+        printc("[green][+][/green] Generated DEVICE SECRET")
 
-    printc("[green][+][/green] Added to Database.")
+        # Add them to db
+        query = """INSERT INTO Password_Manager.classified(masterkey_hash,device_secret)values(%s,%s)"""
+        val = (hashed_mp, ds)
+        cursor.execute(query, val)
+        db.commit()
+
+        printc("[green][+][/green] Added to Database.")
+
+    else:
+        printc("[green]!MASTER PASSWORD already exists.[green]")
+
     printc("[green][+] Configuration Done![/green]")
 
     db.close()
