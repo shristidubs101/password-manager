@@ -20,7 +20,7 @@ def add_entry(mp, ds, sitename, siteurl, email, username):
     # get password
     password = getpass("Password:")
     
-    mk=computerMasterKey()
+    mk=computerMasterKey(mp,ds)
     encrypted=aesutil.encrypt(key=mk,source=password,keyType="bytes")
     
     #add to db
