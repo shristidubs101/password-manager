@@ -29,11 +29,11 @@ def retrieveEntries(mp, ds, search, decryptPassword=False):
     if len(search) == 0:
         query = "SELECT * FROM password_manager.entries"
     else:
-        query = "SELECT * FROM password_manager.entries WHERE"
+        query = "SELECT * FROM password_manager.entries WHERE "
         for i in search:
-            query += f"{i}='{search[i]}' AND "
+            query+=f"{i} = '{search[i]}' AND "
         query = query[:-5]
-
+    
     cursor.execute(query)
     results = cursor.fetchall()
 
