@@ -3,4 +3,5 @@ import string
 
 
 def GeneratePassword(length):
-    return ''.join([random.choices(string.ascii_letters + string.digits, string.punctuation) for n in range(length)])
+    length=int(length)
+    return ''.join([random.choice(string.ascii_letters + string.digits + string.punctuation ) for n in range(length)])
