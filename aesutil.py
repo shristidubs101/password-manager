@@ -29,10 +29,7 @@ def decrypt(key, source, decode=True,keyType="hex"):
 	if keyType == "hex":
 		# Convert key to bytes
 		key = bytes(bytearray.fromhex(key))
-	else:
-		# use SHA-256 over our key to get a proper-sized AES key
-		key = key.encode()
-		key = SHA256.new(key).digest()  
+	
 
 	IV = source[:AES.block_size]  # extract the IV from the beginning
 	decryptor = AES.new(key, AES.MODE_CBC, IV)
