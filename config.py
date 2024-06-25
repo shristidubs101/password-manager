@@ -1,6 +1,6 @@
 from dbconfig import dbconfig
 
-from getpass import getpass
+import pwinput
 import hashlib
 import sys
 
@@ -49,8 +49,8 @@ def config():
     if cursor.fetchone() == (0,):
         mp = ""
         while 1:
-            mp = getpass("Choose a MASTER PASSWORD: ")
-            if mp == getpass("Re-type: ") and mp != "":
+            mp = pwinput.pwinput(prompt="Choose a MASTER PASSWORD: ", mask="*")
+            if mp == pwinput.pwinput(prompt="Re-type: ", mask="*") and mp != "":
                 break
             printc("[yellow][-]Please try again.[/yellow]")
 
