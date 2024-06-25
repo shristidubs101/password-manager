@@ -1,4 +1,4 @@
-from getpass import getpass
+import pwinput
 import hashlib
 import sys
 import pyperclip
@@ -16,7 +16,7 @@ from rich.console import Console
 console = Console()
 
 def inputAndValidateMasterPassword():
-	mp = getpass("MASTER PASSWORD: ")
+	mp = pwinput.pwinput(prompt="Choose a MASTER PASSWORD: ", mask="*")
 	hashed_mp = hashlib.sha256(mp.encode()).hexdigest()
 
 	db = dbconfig()
@@ -77,18 +77,6 @@ def extract():
             decryptPassword=True
         else:
             decryptPassword=False
-    
-        if name != "":
-            search["sitename"] = name
-                 
-        if url != "":
-            search["siteurl"] = url
-                    
-        if email != "":
-            search["email"] = email
-                
-        if login != "":
-            search["username"] = login
         
         if res is not None:
             retrieve.retrieveEntries(res[0],res[1],search,decryptPassword)
@@ -120,7 +108,7 @@ def generate_pass():
 
 def main():
     while True:
-        option = input("OPTIONS:\n (a)Add\n (b)Extract\n (c)Generate\n (d)Exit ").lower()
+        option = input("OPTIONS:\n (a)Add\n (b)Extract\n (c)Generate\n (d)Exit \nEnter your choice: ").lower()
         if option in ["add","a"]:
             enter_data()
             
