@@ -3,7 +3,7 @@ import aesutil
 
 from rich import print as printc
 
-from getpass import getpass
+import pwinput
 from Crypto.Protocol.KDF import PBKDF2
 from Crypto.Hash import SHA512
 from Crypto.Random import get_random_bytes
@@ -18,7 +18,7 @@ def computerMasterKey(mp,ds):
 
 def add_entry(mp, ds, sitename, siteurl, email, username):
     # get password
-    password = getpass("Password:")
+    password = pwinput.pwinput(prompt="Password: ", mask="*")
     
     mk=computerMasterKey(mp,ds)
     encrypted=aesutil.encrypt(key=mk,source=password,keyType="bytes")
